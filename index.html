@@ -38,7 +38,18 @@
           <div class="ingredients-section">
             <h2>Select Your Ingredients</h2>
             <p class="section-description">Choose the ingredients you already have, organized by category</p>
+            <p class="always-available-note">Note: Olive oil, salt, pepper, flour, and sugar are always available and automatically included in your meal plans.</p>
             <div id="ingredients-categories"></div>
+          </div>
+          <div class="cuisine-filter-section">
+            <h3>Optional: Cuisine Influence</h3>
+            <p class="section-description">Filter recipes by cuisine type (optional)</p>
+            <div class="cuisine-buttons">
+              <button class="cuisine-btn" data-cuisine="Asian">Asian</button>
+              <button class="cuisine-btn" data-cuisine="Latin">Latin</button>
+              <button class="cuisine-btn" data-cuisine="Italian">Italian</button>
+              <button class="cuisine-btn active" data-cuisine="all">All Cuisines</button>
+            </div>
           </div>
           <div class="meal-plan-controls">
             <div class="num-meals-input">
@@ -55,3 +66,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
