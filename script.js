@@ -42,8 +42,8 @@ const recipes = [
   },
   {
     id: 6,
-    name: "Mushroom Risotto",
-    ingredients: ["arborio rice", "mushrooms", "onion", "garlic", "white wine", "vegetable broth", "parmesan", "butter", "olive oil"],
+    name: "Creamy Risotto",
+    ingredients: ["arborio rice", "onion", "garlic", "white wine", "vegetable broth", "parmesan", "butter", "olive oil", "heavy whipping cream"],
     difficulty: "medium",
     time: 45,
     category: "Italian"
@@ -83,7 +83,7 @@ const recipes = [
   {
     id: 11,
     name: "Eggplant Parmesan",
-    ingredients: ["eggplant", "tomatoes", "mozzarella", "parmesan", "basil", "garlic", "olive oil", "flour", "eggs", "breadcrumbs"],
+    ingredients: ["eggplant", "tomatoes", "mozzarella", "parmesan", "basil", "garlic", "olive oil", "flour", "eggs", "panko", "tomato paste"],
     difficulty: "hard",
     time: 60,
     category: "Italian"
@@ -115,7 +115,7 @@ const recipes = [
   {
     id: 15,
     name: "Pad Thai (Vegetarian)",
-    ingredients: ["rice noodles", "tofu", "bean sprouts", "carrots", "eggs", "peanuts", "lime", "soy sauce", "sugar", "garlic"],
+    ingredients: ["rice noodles", "tofu", "bean sprouts", "carrots", "eggs", "peanuts", "lime", "soy sauce", "sugar", "garlic", "hot sauce"],
     difficulty: "medium",
     time: 30,
     category: "Asian"
@@ -159,34 +159,93 @@ const recipes = [
     difficulty: "easy",
     time: 35,
     category: "Soup"
+  },
+  {
+    id: 21,
+    name: "Korean Tofu Stir Fry",
+    ingredients: ["tofu", "broccoli", "carrots", "bell peppers", "gochujang", "soy sauce", "garlic", "ginger", "sesame oil", "rice"],
+    difficulty: "medium",
+    time: 30,
+    category: "Asian"
+  },
+  {
+    id: 22,
+    name: "Spicy Tofu Tacos",
+    ingredients: ["tofu", "tortillas", "avocado", "tomatoes", "onion", "cilantro", "lime", "hot sauce", "cheese"],
+    difficulty: "easy",
+    time: 20,
+    category: "Latin"
+  },
+  {
+    id: 23,
+    name: "Creamy Pasta with Tomato Sauce",
+    ingredients: ["pasta", "tomatoes", "tomato paste", "garlic", "onion", "olive oil", "basil", "heavy whipping cream", "parmesan", "salt", "pepper"],
+    difficulty: "medium",
+    time: 25,
+    category: "Italian"
   }
 ];
 
-// Ingredient categories
+// Always available ingredients (automatically included)
+const alwaysAvailableIngredients = ["olive oil", "salt", "pepper", "flour", "sugar"];
+
+// Ingredient categories (excluding always available items)
 const ingredientCategories = {
   "Vegetables": [
     "broccoli", "carrots", "bell peppers", "tomatoes", "onion", "garlic", "spinach",
     "zucchini", "eggplant", "cauliflower", "sweet potatoes", "potatoes", "cucumber",
-    "celery", "mushrooms", "corn", "peas", "bean sprouts", "butternut squash"
+    "celery", "corn", "peas", "bean sprouts", "butternut squash"
   ],
   "Grains & Legumes": [
     "rice", "pasta", "quinoa", "black beans", "chickpeas", "lentils", "arborio rice",
-    "rice noodles", "lasagna noodles", "bread", "pita bread"
+    "rice noodles", "lasagna noodles", "bread", "pita bread", "tortillas"
   ],
   "Dairy & Eggs": [
     "eggs", "mozzarella", "feta cheese", "cheese", "parmesan", "ricotta", "butter",
-    "coconut milk", "mayonnaise"
+    "coconut milk", "mayonnaise", "tofu", "heavy whipping cream"
   ],
   "Pantry Staples": [
-    "olive oil", "soy sauce", "salt", "pepper", "balsamic vinegar", "lemon", "lime",
-    "vegetable broth", "white wine", "flour", "breadcrumbs", "sugar", "sesame oil",
-    "tahini", "olives", "peanuts", "pine nuts"
+    "soy sauce", "balsamic vinegar", "lemon", "lime",
+    "vegetable broth", "white wine", "breadcrumbs", "sesame oil",
+    "tahini", "olives", "peanuts", "pine nuts", "tomato paste", "gochujang", "hot sauce", "panko"
   ],
   "Herbs & Spices": [
     "basil", "cilantro", "ginger", "cumin", "curry powder", "oregano", "coriander",
     "nutmeg", "red pepper flakes", "green onions"
   ]
 };
+
+// Emoji mapping for ingredients
+function getIngredientEmoji(ingredient) {
+  const emojiMap = {
+    // Vegetables
+    "broccoli": "🥦", "carrots": "🥕", "bell peppers": "🫑", "tomatoes": "🍅",
+    "onion": "🧅", "garlic": "🧄", "spinach": "🥬", "zucchini": "🥒",
+    "eggplant": "🍆", "cauliflower": "🥦", "sweet potatoes": "🍠", "potatoes": "🥔",
+    "cucumber": "🥒", "celery": "🥬", "corn": "🌽", "peas": "🫛",
+    "bean sprouts": "🌱", "butternut squash": "🎃",
+    // Grains & Legumes
+    "rice": "🍚", "pasta": "🍝", "quinoa": "🌾", "black beans": "🫘",
+    "chickpeas": "🫘", "lentils": "🫘", "arborio rice": "🍚", "rice noodles": "🍜",
+    "lasagna noodles": "🍝", "bread": "🍞", "pita bread": "🫓", "tortillas": "🌮",
+    // Dairy & Eggs
+    "eggs": "🥚", "mozzarella": "🧀", "feta cheese": "🧀", "cheese": "🧀",
+    "parmesan": "🧀", "ricotta": "🧀", "butter": "🧈", "coconut milk": "🥥",
+    "mayonnaise": "🥄", "tofu": "🫘", "heavy whipping cream": "🥛",
+    // Pantry Staples
+    "soy sauce": "🍶", "balsamic vinegar": "🫙", "lemon": "🍋", "lime": "🍋",
+    "vegetable broth": "🍲", "white wine": "🍷", "breadcrumbs": "🍞", "sesame oil": "🫒",
+    "tahini": "🥄", "olives": "🫒", "peanuts": "🥜", "pine nuts": "🌲",
+    "tomato paste": "🍅", "gochujang": "🌶️", "hot sauce": "🌶️", "panko": "🍞",
+    // Herbs & Spices
+    "basil": "🌿", "cilantro": "🌿", "ginger": "🫚", "cumin": "🌿",
+    "curry powder": "🌶️", "oregano": "🌿", "coriander": "🌿", "nutmeg": "🌰",
+    "red pepper flakes": "🌶️", "green onions": "🧅",
+    // Always available (for display)
+    "olive oil": "🫒", "salt": "🧂", "pepper": "🌶️", "flour": "🌾", "sugar": "🍬"
+  };
+  return emojiMap[ingredient.toLowerCase()] || "🐢";
+}
 
 // Helper functions
 function getDifficultyOrder(difficulty) {
@@ -199,6 +258,7 @@ let currentMode = 'recipes';
 let selectedRecipes = [];
 let sortBy = 'difficulty';
 let selectedIngredients = [];
+let selectedCuisine = 'all';
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -207,7 +267,21 @@ document.addEventListener('DOMContentLoaded', () => {
   setupIngredientsMode();
   renderRecipes();
   renderIngredients();
+  setupCuisineFilter();
 });
+
+// Setup cuisine filter (called after ingredients mode is set up)
+function setupCuisineFilter() {
+  document.querySelectorAll('.cuisine-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active from all buttons
+      document.querySelectorAll('.cuisine-btn').forEach(b => b.classList.remove('active'));
+      // Add active to clicked button
+      btn.classList.add('active');
+      selectedCuisine = btn.dataset.cuisine;
+    });
+  });
+}
 
 // Mode toggle
 function setupModeToggle() {
@@ -350,9 +424,11 @@ function renderIngredients() {
       <div class="ingredients-grid">
         ${ingredients.map(ingredient => {
           const isSelected = selectedIngredients.includes(ingredient.toLowerCase());
+          const emoji = getIngredientEmoji(ingredient);
           return `
             <button class="ingredient-btn ${isSelected ? 'selected' : ''}" data-ingredient="${ingredient.toLowerCase()}">
-              ${ingredient}
+              <span class="ingredient-emoji">${emoji}</span>
+              <span class="ingredient-name">${ingredient}</span>
               ${isSelected ? '<span class="check">✓</span>' : ''}
             </button>
           `;
@@ -387,10 +463,28 @@ function generateMealPlan() {
   
   const numMeals = parseInt(document.getElementById('numMeals').value) || 7;
   
-  // Score each recipe
-  const recipeScores = recipes.map(recipe => {
+  // Combine selected ingredients with always available ingredients
+  const allAvailableIngredients = [...selectedIngredients, ...alwaysAvailableIngredients.map(ing => ing.toLowerCase())];
+  
+  // Filter recipes by cuisine if selected
+  let filteredRecipes = recipes;
+  if (selectedCuisine !== 'all') {
+    // Map cuisine filter to recipe categories
+    const cuisineMap = {
+      'Asian': ['Asian'],
+      'Latin': ['Mexican', 'Latin'],
+      'Italian': ['Italian']
+    };
+    const allowedCategories = cuisineMap[selectedCuisine] || [];
+    filteredRecipes = recipes.filter(recipe => 
+      allowedCategories.includes(recipe.category)
+    );
+  }
+  
+  // Score each recipe (using all available ingredients including always available)
+  const recipeScores = filteredRecipes.map(recipe => {
     const matchingIngredients = recipe.ingredients.filter(ing =>
-      selectedIngredients.includes(ing.toLowerCase())
+      allAvailableIngredients.includes(ing.toLowerCase())
     );
     const score = matchingIngredients.length / recipe.ingredients.length;
     return {
@@ -412,14 +506,14 @@ function generateMealPlan() {
   // Select top N recipes
   const selected = recipeScores.slice(0, numMeals).map(item => item.recipe);
   
-  // Calculate additional ingredients
+  // Calculate additional ingredients (excluding always available)
   const allNeededIngredients = new Set();
   selected.forEach(recipe => {
     recipe.ingredients.forEach(ing => allNeededIngredients.add(ing));
   });
   
   const additional = Array.from(allNeededIngredients).filter(ing =>
-    !selectedIngredients.includes(ing.toLowerCase())
+    !allAvailableIngredients.includes(ing.toLowerCase())
   ).sort();
   
   // Render results
@@ -429,7 +523,7 @@ function generateMealPlan() {
     <div class="generated-recipes">
       ${selected.map(recipe => {
         const matchingIngredients = recipe.ingredients.filter(ing =>
-          selectedIngredients.includes(ing.toLowerCase())
+          allAvailableIngredients.includes(ing.toLowerCase())
         );
         const matchPercentage = Math.round(
           (matchingIngredients.length / recipe.ingredients.length) * 100
@@ -455,10 +549,13 @@ function generateMealPlan() {
               <strong>Ingredients:</strong>
               <div class="ingredients-list">
                 ${recipe.ingredients.map(ing => {
-                  const isSelected = selectedIngredients.includes(ing.toLowerCase());
+                  const isSelected = allAvailableIngredients.includes(ing.toLowerCase());
+                  const isAlwaysAvailable = alwaysAvailableIngredients.map(i => i.toLowerCase()).includes(ing.toLowerCase());
+                  const emoji = getIngredientEmoji(ing);
                   return `
-                    <span class="ingredient-tag ${isSelected ? 'has-ingredient' : 'needs-ingredient'}">
-                      ${ing} ${isSelected ? '✓' : ''}
+                    <span class="ingredient-tag ${isSelected ? 'has-ingredient' : 'needs-ingredient'} ${isAlwaysAvailable ? 'always-available' : ''}">
+                      <span class="ingredient-emoji-small">${emoji}</span>
+                      ${ing} ${isSelected ? '✓' : ''} ${isAlwaysAvailable ? '(always available)' : ''}
                     </span>
                   `;
                 }).join('')}
@@ -490,3 +587,5 @@ function generateMealPlan() {
   resultsDiv.style.display = 'block';
   resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
+
+
