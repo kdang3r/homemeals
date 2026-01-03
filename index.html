@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meal Planner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1>🍽️ Meal Planner</h1>
+      <p class="subtitle">Plan your week with delicious vegetarian meals</p>
+    </header>
+
+    <div class="mode-toggle">
+      <button class="toggle-btn active" data-mode="recipes">Choose Recipes</button>
+      <button class="toggle-btn" data-mode="ingredients">Choose Ingredients</button>
+    </div>
+
+    <main class="app-main">
+      <!-- Choose Recipes Mode -->
+      <div id="recipes-mode" class="mode-content">
+        <div class="choose-recipes">
+          <div class="sort-controls">
+            <label>Sort by:</label>
+            <button class="sort-btn active" data-sort="difficulty">Ease</button>
+            <button class="sort-btn" data-sort="time">Time</button>
+          </div>
+          <div id="recipes-grid" class="recipes-grid"></div>
+          <div id="grocery-section" class="grocery-list-section" style="display: none;"></div>
+        </div>
+      </div>
+
+      <!-- Choose Ingredients Mode -->
+      <div id="ingredients-mode" class="mode-content" style="display: none;">
+        <div class="choose-ingredients">
+          <div class="ingredients-section">
+            <h2>Select Your Ingredients</h2>
+            <p class="section-description">Choose the ingredients you already have, organized by category</p>
+            <div id="ingredients-categories"></div>
+          </div>
+          <div class="meal-plan-controls">
+            <div class="num-meals-input">
+              <label for="numMeals">Number of meals to generate:</label>
+              <input type="number" id="numMeals" min="1" max="20" value="7">
+            </div>
+            <button class="generate-btn" id="generate-btn">Generate Meal Plan</button>
+          </div>
+          <div id="ingredients-results" class="results-section" style="display: none;"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
